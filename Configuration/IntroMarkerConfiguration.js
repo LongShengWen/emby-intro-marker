@@ -117,14 +117,22 @@ define(['baseView', 'loading', 'toast', 'emby-input', 'emby-button', 'emby-check
 
     function loadStatus(view) {
         return ApiClient.getJSON(ApiClient.getUrl('IntroMarker/Status')).then(function (status) {
-            const isRunning = !!status.IsRunning;
+            const runtime = status.Runtime || status || {};
+            const isRunning = !!runtime.IsRunning;
             const badge = view.querySelector('#statusBadge');
 
-            setText(view, '#statusTime', status.LastRunAt ? '更新时间：' + status.LastRunAt : '尚未运行');
-            setText(view, '#statusSeasons', (status.SeasonsCompleted || 0) + ' / ' + (status.SeasonsTotal || 0));
-            setText(view, '#statusEpisodes', String(status.EpisodesScanned || 0));
-            setText(view, '#statusStage', status.CurrentStage || '-');
-            setText(view, '#statusMessage', status.LastMessage || '-');
+            setText(view, '#statusTime', runtime.LastRunAt ? '更新时间：' + runtime.LastRunAt : '尚未运行');
+            setText(view, '#statusSeasons', (runtime.SeasonsCompleted || 0) + ' / ' + (runtime.SeasonsTotal || 0));
+            setText(view, '#statusEpisodes', String(runtime.EpisodesScanned || 0));
+            setText(view, '#statusStage', runtime.CurrentStage || '-');
+            setText(view, '#statusMessage', runtime.LastMessage || '-');
+            setText(view, '#pluginVersion', status.Version ? '版本：' + status.Version : '版本：-');
+
+            const repoLink = view.querySelector('#repoLink');
+            if (repoLink && status.RepositoryUrl) {
+                repoLink.href = status.RepositoryUrl;
+                repoLink.textContent = status.RepositoryUrl;
+            }
 
             if (badge) {
                 badge.textContent = isRunning ? '运行中' : '空闲';

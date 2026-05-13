@@ -26,7 +26,13 @@ public sealed class IntroMarkerApiService : IService
 
     public object Get(StatusRequest request)
     {
-        return Plugin.Runtime?.Snapshot() ?? new { IsRunning = false, CurrentStage = "未初始化" };
+        var runtime = Plugin.Runtime?.Snapshot();
+        return new
+        {
+            Version = Plugin.Version,
+            RepositoryUrl = "https://github.com/LongShengWen/emby-intro-marker",
+            Runtime = runtime ?? new { IsRunning = false, CurrentStage = "未初始化" }
+        };
     }
 
     public async Task<object> Post(ScanSeasonRequest request)

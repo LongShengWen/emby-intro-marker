@@ -84,7 +84,7 @@ public sealed class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages, ISer
         {
             new PluginPageInfo
             {
-                Name = "IntroMarkerConfigurationV12",
+                Name = "IntroMarkerConfigurationV13",
                 EmbeddedResourcePath = "IntroMarkerPlugin.Configuration.IntroMarkerConfiguration.html",
                 DisplayName = "片头片尾识别",
                 EnableInMainMenu = true,
@@ -92,7 +92,7 @@ public sealed class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages, ISer
             },
             new PluginPageInfo
             {
-                Name = "IntroMarkerConfigurationjsV12",
+                Name = "IntroMarkerConfigurationjsV13",
                 EmbeddedResourcePath = "IntroMarkerPlugin.Configuration.IntroMarkerConfiguration.js"
             }
         };
