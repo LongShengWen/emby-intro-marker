@@ -1,94 +1,161 @@
-<div is="emby-scroller" data-controller="configurationpage?name=IntroMarkerConfigurationjsV13" class="view flex flex-direction-column scrollFrameY flex-grow" data-horizontal="false" data-forcescrollbar="true" data-centerfocus="true" data-bindheader="true" data-title="片头片尾识别">
+<div is="emby-scroller" data-controller="configurationpage?name=IntroMarkerConfigurationjsV14" class="view flex flex-direction-column scrollFrameY flex-grow" data-horizontal="false" data-forcescrollbar="true" data-centerfocus="true" data-bindheader="true" data-title="片头片尾识别">
     <div class="scrollSlider flex-direction-column padded-left padded-left-page padded-right padded-top-page padded-bottom-page">
         <div class="readOnlyContent auto-center" style="max-width: 900px;">
-            <h1 class="pageTitle">片头片尾识别</h1>
-            <div class="secondaryText" style="margin:.25em 0 1.25em; line-height:1.7;">
-                <div id="pluginVersion">版本：-</div>
-                <div>仓库：<a id="repoLink" href="https://github.com/LongShengWen/emby-intro-marker" target="_blank" rel="noreferrer">https://github.com/LongShengWen/emby-intro-marker</a></div>
-            </div>
+            <style>
+                .introMarkerCard {
+                    background: rgba(255,255,255,.02);
+                    border: 1px solid rgba(255,255,255,.08);
+                    border-radius: 14px;
+                    padding: 1rem 1.1rem;
+                    margin-bottom: 1rem;
+                }
 
-            <div style="display:flex; gap:8px; flex-wrap:wrap; margin:1em 0 1.5em;">
-                <button is="emby-button" type="button" class="nav-button raised ui-btn-active" data-target="tabGeneral">基础</button>
-                <button is="emby-button" type="button" class="nav-button raised" data-target="tabSource">识别来源</button>
-                <button is="emby-button" type="button" class="nav-button raised" data-target="tabLocal">本地识别</button>
-                <button is="emby-button" type="button" class="nav-button raised" data-target="tabStatus">运行状态</button>
-            </div>
+                .introMarkerHeader {
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 16px;
+                    flex-wrap: wrap;
+                    align-items: flex-start;
+                    margin-bottom: 1rem;
+                }
 
-            <div style="display:flex; gap:12px; flex-wrap:wrap; margin:0 0 1.5em;">
-                <button is="emby-button" type="submit" form="introMarkerForm" class="raised button-submit block">保存配置</button>
-                <button is="emby-button" type="button" id="btnScanNow" class="raised">立即扫描</button>
-                <button is="emby-button" type="button" id="btnClearCache" class="raised">清空缓存</button>
-                <button is="emby-button" type="button" id="btnRefreshStatus" class="raised">刷新状态</button>
-            </div>
+                .introMarkerTitle {
+                    display: flex;
+                    flex-direction: column;
+                    gap: .35rem;
+                }
 
-            <form class="introMarkerForm" id="introMarkerForm">
-                <div id="tabGeneral" class="configTabPage">
-                    <div class="sectionTitle">扫描范围</div>
-                    <div class="selectContainer">
-                        <select is="emby-select" id="selectLibraries" label="选择媒体库" multiple allselected-labeltext="全部电视剧/混合库"></select>
-                        <div class="fieldDescription">不选时默认扫描全部电视剧/混合库。</div>
+                .introMarkerMeta {
+                    min-width: 260px;
+                    line-height: 1.8;
+                    word-break: break-all;
+                }
+
+                .introMarkerTabBar,
+                .introMarkerActions {
+                    display: flex;
+                    gap: 10px;
+                    flex-wrap: wrap;
+                }
+
+                .introMarkerTabBar {
+                    margin-bottom: 1rem;
+                }
+
+                .introMarkerActions {
+                    margin-bottom: 1.25rem;
+                }
+
+                .introMarkerSection {
+                    margin-bottom: 1.25rem;
+                }
+
+                .introMarkerSection:last-child {
+                    margin-bottom: 0;
+                }
+            </style>
+
+            <div class="introMarkerCard">
+                <div class="introMarkerHeader">
+                    <div class="introMarkerTitle">
+                        <h1 class="pageTitle" style="margin:0;">片头片尾识别</h1>
+                        <div class="secondaryText">Emby 片头 / 片尾标记检测与管理</div>
                     </div>
-
-                    <div class="sectionTitle">写入与调度</div>
-                    <div class="checkboxContainer checkboxContainer-withDescription">
-                        <label>
-                            <input is="emby-checkbox" type="checkbox" id="chkReplaceNativeIntroMarkers" />
-                            <span>替换原生片头检测结果</span>
-                        </label>
-                        <div class="fieldDescription">关闭时，如果 Emby 已经有片头标记，插件不覆盖。</div>
-                    </div>
-
-                    <div class="checkboxContainer checkboxContainer-withDescription">
-                        <label>
-                            <input is="emby-checkbox" type="checkbox" id="chkReplaceExistingCreditsMarkers" />
-                            <span>替换已有片尾标记</span>
-                        </label>
-                        <div class="fieldDescription">关闭时，如果已有片尾标记，插件不覆盖。</div>
-                    </div>
-
-                    <div class="checkboxContainer checkboxContainer-withDescription">
-                        <label>
-                            <input is="emby-checkbox" type="checkbox" id="chkEnableIntroDetection" />
-                            <span>启用片头识别</span>
-                        </label>
-                    </div>
-
-                    <div class="checkboxContainer checkboxContainer-withDescription">
-                        <label>
-                            <input is="emby-checkbox" type="checkbox" id="chkEnableCreditsDetection" />
-                            <span>启用片尾识别</span>
-                        </label>
-                    </div>
-
-                    <div class="checkboxContainer checkboxContainer-withDescription">
-                        <label>
-                            <input is="emby-checkbox" type="checkbox" id="chkEnableLibraryScanOnImport" />
-                            <span>启用入库扫描</span>
-                        </label>
-                        <div class="fieldDescription">新剧集入库后，按季度自动进入识别队列。</div>
-                    </div>
-
-                    <div class="checkboxContainer checkboxContainer-withDescription">
-                        <label>
-                            <input is="emby-checkbox" type="checkbox" id="chkEnableCache" />
-                            <span>启用缓存</span>
-                        </label>
-                        <div class="fieldDescription">缓存帧哈希，避免相同文件重复扫描。</div>
-                    </div>
-
-                    <div class="sectionTitle">资源控制</div>
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="txtMaxParallelTasks">线程数</label>
-                        <input is="emby-input" type="number" id="txtMaxParallelTasks" min="1" max="16" />
-                    </div>
-
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="txtImportDebounceSeconds">入库延迟秒数</label>
-                        <input is="emby-input" type="number" id="txtImportDebounceSeconds" min="10" max="600" />
+                    <div class="secondaryText introMarkerMeta">
+                        <div id="pluginVersion">版本：-</div>
+                        <div>仓库：<a id="repoLink" href="https://github.com/LongShengWen/emby-intro-marker" target="_blank" rel="noreferrer">https://github.com/LongShengWen/emby-intro-marker</a></div>
                     </div>
                 </div>
 
-                <div id="tabSource" class="configTabPage hide">
+                <div class="introMarkerTabBar">
+                    <button is="emby-button" type="button" class="nav-button raised ui-btn-active" data-target="tabGeneral">基础</button>
+                    <button is="emby-button" type="button" class="nav-button raised" data-target="tabSource">识别来源</button>
+                    <button is="emby-button" type="button" class="nav-button raised" data-target="tabLocal">本地识别</button>
+                    <button is="emby-button" type="button" class="nav-button raised" data-target="tabStatus">运行状态</button>
+                </div>
+
+                <div class="introMarkerActions">
+                    <button is="emby-button" type="submit" form="introMarkerForm" class="raised button-submit block">保存配置</button>
+                    <button is="emby-button" type="button" id="btnScanNow" class="raised">立即扫描</button>
+                    <button is="emby-button" type="button" id="btnClearCache" class="raised">清空缓存</button>
+                    <button is="emby-button" type="button" id="btnRefreshStatus" class="raised">刷新状态</button>
+                </div>
+            </div>
+
+            <form class="introMarkerForm" id="introMarkerForm">
+                <div id="tabGeneral" class="configTabPage introMarkerCard">
+                    <div class="introMarkerSection">
+                        <div class="sectionTitle">扫描范围</div>
+                        <div class="selectContainer">
+                            <select is="emby-select" id="selectLibraries" label="选择媒体库" multiple allselected-labeltext="全部电视剧/混合库"></select>
+                            <div class="fieldDescription">不选时默认扫描全部电视剧/混合库。</div>
+                        </div>
+                    </div>
+
+                    <div class="introMarkerSection">
+                        <div class="sectionTitle">写入与调度</div>
+                        <div class="checkboxContainer checkboxContainer-withDescription">
+                            <label>
+                                <input is="emby-checkbox" type="checkbox" id="chkReplaceNativeIntroMarkers" />
+                                <span>替换原生片头检测结果</span>
+                            </label>
+                            <div class="fieldDescription">关闭时，如果 Emby 已经有片头标记，插件不覆盖。</div>
+                        </div>
+
+                        <div class="checkboxContainer checkboxContainer-withDescription">
+                            <label>
+                                <input is="emby-checkbox" type="checkbox" id="chkReplaceExistingCreditsMarkers" />
+                                <span>替换已有片尾标记</span>
+                            </label>
+                            <div class="fieldDescription">关闭时，如果已有片尾标记，插件不覆盖。</div>
+                        </div>
+
+                        <div class="checkboxContainer checkboxContainer-withDescription">
+                            <label>
+                                <input is="emby-checkbox" type="checkbox" id="chkEnableIntroDetection" />
+                                <span>启用片头识别</span>
+                            </label>
+                        </div>
+
+                        <div class="checkboxContainer checkboxContainer-withDescription">
+                            <label>
+                                <input is="emby-checkbox" type="checkbox" id="chkEnableCreditsDetection" />
+                                <span>启用片尾识别</span>
+                            </label>
+                        </div>
+
+                        <div class="checkboxContainer checkboxContainer-withDescription">
+                            <label>
+                                <input is="emby-checkbox" type="checkbox" id="chkEnableLibraryScanOnImport" />
+                                <span>启用入库扫描</span>
+                            </label>
+                            <div class="fieldDescription">新剧集入库后，按季度自动进入识别队列。</div>
+                        </div>
+
+                        <div class="checkboxContainer checkboxContainer-withDescription">
+                            <label>
+                                <input is="emby-checkbox" type="checkbox" id="chkEnableCache" />
+                                <span>启用缓存</span>
+                            </label>
+                            <div class="fieldDescription">缓存帧哈希，避免相同文件重复扫描。</div>
+                        </div>
+                    </div>
+
+                    <div class="introMarkerSection">
+                        <div class="sectionTitle">资源控制</div>
+                        <div class="inputContainer">
+                            <label class="inputLabel inputLabelUnfocused" for="txtMaxParallelTasks">线程数</label>
+                            <input is="emby-input" type="number" id="txtMaxParallelTasks" min="1" max="16" />
+                        </div>
+
+                        <div class="inputContainer">
+                            <label class="inputLabel inputLabelUnfocused" for="txtImportDebounceSeconds">入库延迟秒数</label>
+                            <input is="emby-input" type="number" id="txtImportDebounceSeconds" min="10" max="600" />
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tabSource" class="configTabPage hide introMarkerCard">
                     <div class="sectionTitle">识别来源</div>
                     <div class="checkboxContainer checkboxContainer-withDescription">
                         <label>
@@ -111,7 +178,7 @@
                     </div>
                 </div>
 
-                <div id="tabLocal" class="configTabPage hide">
+                <div id="tabLocal" class="configTabPage hide introMarkerCard">
                     <div class="sectionTitle">本地识别参数</div>
                     <div class="selectContainer">
                         <select is="emby-select" id="selectDetectionStrategy" label="本地识别方式">
@@ -168,7 +235,7 @@
                 </div>
             </form>
 
-            <div id="tabStatus" class="configTabPage hide">
+            <div id="tabStatus" class="configTabPage hide introMarkerCard">
                 <div class="sectionTitle">运行状态</div>
                 <div id="statusBox" class="card cardBox padded">
                     <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:1em;">
