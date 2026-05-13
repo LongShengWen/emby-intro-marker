@@ -1,0 +1,199 @@
+<div is="emby-scroller" data-controller="configurationpage?name=IntroMarkerConfigurationjsV12" class="view flex flex-direction-column scrollFrameY flex-grow" data-horizontal="false" data-forcescrollbar="true" data-centerfocus="true" data-bindheader="true" data-title="片头片尾识别">
+    <div class="scrollSlider flex-direction-column padded-left padded-left-page padded-right padded-top-page padded-bottom-page">
+        <div class="readOnlyContent auto-center" style="max-width: 900px;">
+            <h1 class="pageTitle">片头片尾识别</h1>
+
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin:1em 0 1.5em;">
+                <button is="emby-button" type="button" class="nav-button raised ui-btn-active" data-target="tabGeneral">基础</button>
+                <button is="emby-button" type="button" class="nav-button raised" data-target="tabSource">识别来源</button>
+                <button is="emby-button" type="button" class="nav-button raised" data-target="tabLocal">本地识别</button>
+                <button is="emby-button" type="button" class="nav-button raised" data-target="tabStatus">运行状态</button>
+            </div>
+
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin:0 0 1.5em;">
+                <button is="emby-button" type="submit" form="introMarkerForm" class="raised button-submit block">保存配置</button>
+                <button is="emby-button" type="button" id="btnScanNow" class="raised">立即扫描</button>
+                <button is="emby-button" type="button" id="btnClearCache" class="raised">清空缓存</button>
+                <button is="emby-button" type="button" id="btnRefreshStatus" class="raised">刷新状态</button>
+            </div>
+
+            <form class="introMarkerForm" id="introMarkerForm">
+                <div id="tabGeneral" class="configTabPage">
+                    <div class="sectionTitle">扫描范围</div>
+                    <div class="selectContainer">
+                        <select is="emby-select" id="selectLibraries" label="选择媒体库" multiple allselected-labeltext="全部电视剧/混合库"></select>
+                        <div class="fieldDescription">不选时默认扫描全部电视剧/混合库。</div>
+                    </div>
+
+                    <div class="sectionTitle">写入与调度</div>
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label>
+                            <input is="emby-checkbox" type="checkbox" id="chkReplaceNativeIntroMarkers" />
+                            <span>替换原生片头检测结果</span>
+                        </label>
+                        <div class="fieldDescription">关闭时，如果 Emby 已经有片头标记，插件不覆盖。</div>
+                    </div>
+
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label>
+                            <input is="emby-checkbox" type="checkbox" id="chkReplaceExistingCreditsMarkers" />
+                            <span>替换已有片尾标记</span>
+                        </label>
+                        <div class="fieldDescription">关闭时，如果已有片尾标记，插件不覆盖。</div>
+                    </div>
+
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label>
+                            <input is="emby-checkbox" type="checkbox" id="chkEnableIntroDetection" />
+                            <span>启用片头识别</span>
+                        </label>
+                    </div>
+
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label>
+                            <input is="emby-checkbox" type="checkbox" id="chkEnableCreditsDetection" />
+                            <span>启用片尾识别</span>
+                        </label>
+                    </div>
+
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label>
+                            <input is="emby-checkbox" type="checkbox" id="chkEnableLibraryScanOnImport" />
+                            <span>启用入库扫描</span>
+                        </label>
+                        <div class="fieldDescription">新剧集入库后，按季度自动进入识别队列。</div>
+                    </div>
+
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label>
+                            <input is="emby-checkbox" type="checkbox" id="chkEnableCache" />
+                            <span>启用缓存</span>
+                        </label>
+                        <div class="fieldDescription">缓存帧哈希，避免相同文件重复扫描。</div>
+                    </div>
+
+                    <div class="sectionTitle">资源控制</div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="txtMaxParallelTasks">线程数</label>
+                        <input is="emby-input" type="number" id="txtMaxParallelTasks" min="1" max="16" />
+                    </div>
+
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="txtImportDebounceSeconds">入库延迟秒数</label>
+                        <input is="emby-input" type="number" id="txtImportDebounceSeconds" min="10" max="600" />
+                    </div>
+                </div>
+
+                <div id="tabSource" class="configTabPage hide">
+                    <div class="sectionTitle">识别来源</div>
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label>
+                            <input is="emby-checkbox" type="checkbox" id="chkEnableTheIntroDb" />
+                            <span>优先使用 TheIntroDB</span>
+                        </label>
+                        <div class="fieldDescription">优先读取社区维护的片头片尾时间点，命中时可减少本地扫描资源占用。</div>
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="txtTheIntroDbApiKey">TheIntroDB API Key</label>
+                        <input is="emby-input" type="password" id="txtTheIntroDbApiKey" autocomplete="off" />
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="txtTheIntroDbMinConfidence">TheIntroDB 最低置信度</label>
+                        <input is="emby-input" type="number" id="txtTheIntroDbMinConfidence" min="0.10" max="1.00" step="0.05" />
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="txtTheIntroDbMinSubmissions">TheIntroDB 最低提交数</label>
+                        <input is="emby-input" type="number" id="txtTheIntroDbMinSubmissions" min="1" max="20" />
+                    </div>
+                </div>
+
+                <div id="tabLocal" class="configTabPage hide">
+                    <div class="sectionTitle">本地识别参数</div>
+                    <div class="selectContainer">
+                        <select is="emby-select" id="selectDetectionStrategy" label="本地识别方式">
+                            <option value="Auto">自动（视频+音频+字幕）</option>
+                            <option value="HashOnly">仅哈希</option>
+                            <option value="AudioOnly">仅声纹</option>
+                        </select>
+                        <div class="fieldDescription">自动模式按滑动窗口做多模态匹配，综合视频关键帧、音频特征、字幕特征和时序一致性。</div>
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="txtMaxSampleEpisodes">每季最大采样集数</label>
+                        <input is="emby-input" type="number" id="txtMaxSampleEpisodes" min="2" max="12" />
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="txtIntroAnalysisSeconds">片头分析范围（秒）</label>
+                        <input is="emby-input" type="number" id="txtIntroAnalysisSeconds" min="30" max="600" />
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="txtCreditsAnalysisSeconds">片尾分析范围（秒）</label>
+                        <input is="emby-input" type="number" id="txtCreditsAnalysisSeconds" min="30" max="900" />
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="txtMinIntroDurationSeconds">片头最短时长（秒）</label>
+                        <input is="emby-input" type="number" id="txtMinIntroDurationSeconds" min="5" max="180" />
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="txtMaxIntroDurationSeconds">片头最长时长（秒）</label>
+                        <input is="emby-input" type="number" id="txtMaxIntroDurationSeconds" min="5" max="300" />
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="txtMinCreditsDurationSeconds">片尾最短时长（秒）</label>
+                        <input is="emby-input" type="number" id="txtMinCreditsDurationSeconds" min="5" max="300" />
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="txtMaxCreditsDurationSeconds">片尾最长时长（秒）</label>
+                        <input is="emby-input" type="number" id="txtMaxCreditsDurationSeconds" min="5" max="600" />
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="txtSampleFps">采样帧率</label>
+                        <input is="emby-input" type="number" id="txtSampleFps" min="1" max="2" />
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="txtMatchThreshold">匹配阈值</label>
+                        <input is="emby-input" type="number" id="txtMatchThreshold" min="0.70" max="0.99" step="0.01" />
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="txtMatchWindowSeconds">匹配窗口（秒）</label>
+                        <input is="emby-input" type="number" id="txtMatchWindowSeconds" min="6" max="30" />
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="txtMinEpisodesPerSeason">最少样本集数</label>
+                        <input is="emby-input" type="number" id="txtMinEpisodesPerSeason" min="2" max="10" />
+                    </div>
+                </div>
+            </form>
+
+            <div id="tabStatus" class="configTabPage hide">
+                <div class="sectionTitle">运行状态</div>
+                <div id="statusBox" class="card cardBox padded">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:1em;">
+                        <div style="font-size:1.1em; font-weight:600;">扫描状态</div>
+                        <div id="statusBadge" style="padding:.3em .8em; border-radius:999px; font-weight:600; background:rgba(128,128,128,.18);">未知</div>
+                    </div>
+
+                    <div style="display:flex; margin:.55em 0;">
+                        <div class="secondaryText" style="width:8em; flex:0 0 8em;">更新时间</div>
+                        <div id="statusTime" style="flex:1;">尚未加载</div>
+                    </div>
+                    <div style="display:flex; margin:.55em 0;">
+                        <div class="secondaryText" style="width:8em; flex:0 0 8em;">季度进度</div>
+                        <div id="statusSeasons" style="flex:1; font-weight:600;">- / -</div>
+                    </div>
+                    <div style="display:flex; margin:.55em 0;">
+                        <div class="secondaryText" style="width:8em; flex:0 0 8em;">已扫剧集</div>
+                        <div id="statusEpisodes" style="flex:1; font-weight:600;">-</div>
+                    </div>
+                    <div style="display:flex; margin:.55em 0; align-items:flex-start;">
+                        <div class="secondaryText" style="width:8em; flex:0 0 8em;">当前阶段</div>
+                        <div id="statusStage" style="flex:1;">-</div>
+                    </div>
+                    <div style="display:flex; margin:.55em 0; align-items:flex-start;">
+                        <div class="secondaryText" style="width:8em; flex:0 0 8em;">最近消息</div>
+                        <div id="statusMessage" style="flex:1; line-height:1.6;">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

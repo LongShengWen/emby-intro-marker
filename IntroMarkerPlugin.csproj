@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>IntroMarkerPlugin</AssemblyName>
+    <RootNamespace>IntroMarkerPlugin</RootNamespace>
+    <OutputType>Library</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="MediaBrowser.Common">
+      <HintPath>refs/MediaBrowser.Common.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="MediaBrowser.Controller">
+      <HintPath>refs/MediaBrowser.Controller.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="MediaBrowser.Model">
+      <HintPath>refs/MediaBrowser.Model.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Emby.Web.GenericUI">
+      <HintPath>refs/Emby.Web.GenericUI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Emby.Web.GenericEdit">
+      <HintPath>refs/Emby.Web.GenericEdit.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>refs/ServiceStack.Text.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Configuration/IntroMarkerConfiguration.html">
+      <LogicalName>IntroMarkerPlugin.Configuration.IntroMarkerConfiguration.html</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Configuration/IntroMarkerConfiguration.js">
+      <LogicalName>IntroMarkerPlugin.Configuration.IntroMarkerConfiguration.js</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
