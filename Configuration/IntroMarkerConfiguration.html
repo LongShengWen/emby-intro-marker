@@ -1,22 +1,20 @@
-<div is="emby-scroller" data-controller="configurationpage?name=IntroMarkerConfigurationjsV15" class="view flex flex-direction-column scrollFrameY flex-grow" data-horizontal="false" data-forcescrollbar="true" data-centerfocus="true" data-bindheader="true" data-title="片头片尾识别">
+<div is="emby-scroller" data-controller="configurationpage?name=IntroMarkerConfigurationjsV16" class="view flex flex-direction-column scrollFrameY flex-grow" data-horizontal="false" data-forcescrollbar="true" data-centerfocus="true" data-bindheader="true" data-title="片头片尾识别">
     <div class="scrollSlider flex-direction-column padded-left padded-left-page padded-right padded-top-page padded-bottom-page">
         <div class="readOnlyContent auto-center" style="max-width: 900px;">
             <style>
                 .introMarkerCard {
-                    background: rgba(255,255,255,.02);
+                    background: rgba(255,255,255,.025);
                     border: 1px solid rgba(255,255,255,.08);
-                    border-radius: 14px;
-                    padding: 1rem 1.1rem;
+                    border-radius: 16px;
+                    padding: 1.1rem 1.15rem;
                     margin-bottom: 1rem;
+                    box-shadow: 0 8px 24px rgba(0,0,0,.12);
                 }
 
                 .introMarkerHeader {
                     display: flex;
-                    justify-content: space-between;
-                    gap: 16px;
-                    flex-wrap: wrap;
-                    align-items: flex-start;
-                    margin-bottom: 1rem;
+                    flex-direction: column;
+                    gap: .45rem;
                 }
 
                 .introMarkerTitle {
@@ -25,16 +23,11 @@
                     gap: .35rem;
                 }
 
-                .introMarkerMeta {
-                    min-width: 260px;
-                    line-height: 1.8;
-                    word-break: break-all;
-                }
-
                 .introMarkerFooter {
-                    margin-top: 1rem;
+                    margin-top: 1.1rem;
                     text-align: center;
                     line-height: 1.8;
+                    padding-bottom: .5rem;
                 }
 
                 .introMarkerTabBar,
@@ -45,11 +38,11 @@
                 }
 
                 .introMarkerTabBar {
-                    margin-bottom: 1rem;
+                    margin: 1rem 0 0;
                 }
 
                 .introMarkerActions {
-                    margin-bottom: 1.25rem;
+                    margin-top: 1rem;
                 }
 
                 .introMarkerSection {
@@ -59,13 +52,68 @@
                 .introMarkerSection:last-child {
                     margin-bottom: 0;
                 }
+
+                .introMarkerSectionCard {
+                    background: rgba(255,255,255,.02);
+                    border: 1px solid rgba(255,255,255,.06);
+                    border-radius: 12px;
+                    padding: .95rem 1rem;
+                    margin-bottom: .9rem;
+                }
+
+                .introMarkerSectionCard:last-child {
+                    margin-bottom: 0;
+                }
+
+                .introMarkerSectionDesc {
+                    margin: -.1rem 0 .85rem;
+                    line-height: 1.6;
+                }
+
+                .introMarkerStats {
+                    display: flex;
+                    gap: 12px;
+                    flex-wrap: wrap;
+                    margin-bottom: 1rem;
+                }
+
+                .introMarkerStat {
+                    flex: 1 1 160px;
+                    min-width: 160px;
+                    background: rgba(255,255,255,.02);
+                    border: 1px solid rgba(255,255,255,.06);
+                    border-radius: 12px;
+                    padding: .85rem .95rem;
+                }
+
+                .introMarkerStatLabel {
+                    font-size: .95em;
+                    opacity: .75;
+                    margin-bottom: .35rem;
+                }
+
+                .introMarkerStatValue {
+                    font-size: 1.15em;
+                    font-weight: 600;
+                }
+
+                .introMarkerInfoRow {
+                    display: flex;
+                    margin: .65em 0;
+                    align-items: flex-start;
+                }
+
+                .introMarkerInfoKey {
+                    width: 7em;
+                    flex: 0 0 7em;
+                }
             </style>
 
             <div class="introMarkerCard">
                 <div class="introMarkerHeader">
                     <div class="introMarkerTitle">
                         <h1 class="pageTitle" style="margin:0;">片头片尾识别</h1>
-                        <div class="secondaryText">Emby 片头 / 片尾标记检测与管理</div>
+                        <div class="secondaryText">优先复用 Emby 原生结果，补充本地与远端识别能力。</div>
                     </div>
                 </div>
 
@@ -86,32 +134,17 @@
 
             <form class="introMarkerForm" id="introMarkerForm">
                 <div id="tabGeneral" class="configTabPage introMarkerCard">
-                    <div class="introMarkerSection">
+                    <div class="introMarkerSectionCard">
                         <div class="sectionTitle">扫描范围</div>
+                        <div class="secondaryText introMarkerSectionDesc">选择参与识别的媒体库。未选择时默认扫描全部电视剧和混合库。</div>
                         <div class="selectContainer">
                             <select is="emby-select" id="selectLibraries" label="选择媒体库" multiple allselected-labeltext="全部电视剧/混合库"></select>
-                            <div class="fieldDescription">不选时默认扫描全部电视剧/混合库。</div>
                         </div>
                     </div>
 
-                    <div class="introMarkerSection">
-                        <div class="sectionTitle">写入与调度</div>
-                        <div class="checkboxContainer checkboxContainer-withDescription">
-                            <label>
-                                <input is="emby-checkbox" type="checkbox" id="chkReplaceNativeIntroMarkers" />
-                                <span>替换原生片头检测结果</span>
-                            </label>
-                            <div class="fieldDescription">关闭时，如果 Emby 已经有片头标记，插件不覆盖。</div>
-                        </div>
-
-                        <div class="checkboxContainer checkboxContainer-withDescription">
-                            <label>
-                                <input is="emby-checkbox" type="checkbox" id="chkReplaceExistingCreditsMarkers" />
-                                <span>替换已有片尾标记</span>
-                            </label>
-                            <div class="fieldDescription">关闭时，如果已有片尾标记，插件不覆盖。</div>
-                        </div>
-
+                    <div class="introMarkerSectionCard">
+                        <div class="sectionTitle">识别开关</div>
+                        <div class="secondaryText introMarkerSectionDesc">控制片头、片尾、本地缓存与入库自动扫描。</div>
                         <div class="checkboxContainer checkboxContainer-withDescription">
                             <label>
                                 <input is="emby-checkbox" type="checkbox" id="chkEnableIntroDetection" />
@@ -139,12 +172,33 @@
                                 <input is="emby-checkbox" type="checkbox" id="chkEnableCache" />
                                 <span>启用缓存</span>
                             </label>
-                            <div class="fieldDescription">缓存帧哈希，避免相同文件重复扫描。</div>
+                            <div class="fieldDescription">缓存特征结果，避免重复扫描。</div>
                         </div>
                     </div>
 
-                    <div class="introMarkerSection">
+                    <div class="introMarkerSectionCard">
+                        <div class="sectionTitle">写入策略</div>
+                        <div class="secondaryText introMarkerSectionDesc">控制插件对 Emby 已有片头片尾标记的覆盖行为。</div>
+                        <div class="checkboxContainer checkboxContainer-withDescription">
+                            <label>
+                                <input is="emby-checkbox" type="checkbox" id="chkReplaceNativeIntroMarkers" />
+                                <span>替换原生片头检测结果</span>
+                            </label>
+                            <div class="fieldDescription">关闭时，如果 Emby 已经有片头标记，插件不覆盖。</div>
+                        </div>
+
+                        <div class="checkboxContainer checkboxContainer-withDescription">
+                            <label>
+                                <input is="emby-checkbox" type="checkbox" id="chkReplaceExistingCreditsMarkers" />
+                                <span>替换已有片尾标记</span>
+                            </label>
+                            <div class="fieldDescription">关闭时，如果已有片尾标记，插件不覆盖。</div>
+                        </div>
+                    </div>
+
+                    <div class="introMarkerSectionCard">
                         <div class="sectionTitle">资源控制</div>
+                        <div class="secondaryText introMarkerSectionDesc">控制扫描并发和入库触发节流，避免对 CPU 造成持续压力。</div>
                         <div class="inputContainer">
                             <label class="inputLabel inputLabelUnfocused" for="txtMaxParallelTasks">线程数</label>
                             <input is="emby-input" type="number" id="txtMaxParallelTasks" min="1" max="16" />
@@ -158,112 +212,134 @@
                 </div>
 
                 <div id="tabSource" class="configTabPage hide introMarkerCard">
-                    <div class="sectionTitle">识别来源</div>
-                    <div class="checkboxContainer checkboxContainer-withDescription">
-                        <label>
-                            <input is="emby-checkbox" type="checkbox" id="chkEnableTheIntroDb" />
-                            <span>优先使用 TheIntroDB</span>
-                        </label>
-                        <div class="fieldDescription">优先读取社区维护的片头片尾时间点，命中时可减少本地扫描资源占用。</div>
-                    </div>
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="txtTheIntroDbApiKey">TheIntroDB API Key</label>
-                        <input is="emby-input" type="password" id="txtTheIntroDbApiKey" autocomplete="off" />
-                    </div>
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="txtTheIntroDbMinConfidence">TheIntroDB 最低置信度</label>
-                        <input is="emby-input" type="number" id="txtTheIntroDbMinConfidence" min="0.10" max="1.00" step="0.05" />
-                    </div>
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="txtTheIntroDbMinSubmissions">TheIntroDB 最低提交数</label>
-                        <input is="emby-input" type="number" id="txtTheIntroDbMinSubmissions" min="1" max="20" />
+                    <div class="introMarkerSectionCard">
+                        <div class="sectionTitle">TheIntroDB</div>
+                        <div class="secondaryText introMarkerSectionDesc">优先使用社区维护结果。命中后可减少本地扫描时间和 ffmpeg 调用。</div>
+                        <div class="checkboxContainer checkboxContainer-withDescription">
+                            <label>
+                                <input is="emby-checkbox" type="checkbox" id="chkEnableTheIntroDb" />
+                                <span>优先使用 TheIntroDB</span>
+                            </label>
+                            <div class="fieldDescription">命中时直接复用远端片头片尾时间点。</div>
+                        </div>
+                        <div class="inputContainer">
+                            <label class="inputLabel inputLabelUnfocused" for="txtTheIntroDbApiKey">TheIntroDB API Key</label>
+                            <input is="emby-input" type="password" id="txtTheIntroDbApiKey" autocomplete="off" />
+                        </div>
+                        <div class="inputContainer">
+                            <label class="inputLabel inputLabelUnfocused" for="txtTheIntroDbMinConfidence">TheIntroDB 最低置信度</label>
+                            <input is="emby-input" type="number" id="txtTheIntroDbMinConfidence" min="0.10" max="1.00" step="0.05" />
+                        </div>
+                        <div class="inputContainer">
+                            <label class="inputLabel inputLabelUnfocused" for="txtTheIntroDbMinSubmissions">TheIntroDB 最低提交数</label>
+                            <input is="emby-input" type="number" id="txtTheIntroDbMinSubmissions" min="1" max="20" />
+                        </div>
                     </div>
                 </div>
 
                 <div id="tabLocal" class="configTabPage hide introMarkerCard">
-                    <div class="sectionTitle">本地识别参数</div>
-                    <div class="selectContainer">
-                        <select is="emby-select" id="selectDetectionStrategy" label="本地识别方式">
-                            <option value="Auto">自动（视频+音频+字幕）</option>
-                            <option value="HashOnly">仅哈希</option>
-                            <option value="AudioOnly">仅声纹</option>
-                        </select>
-                        <div class="fieldDescription">自动模式按滑动窗口做多模态匹配，综合视频关键帧、音频特征、字幕特征和时序一致性。</div>
+                    <div class="introMarkerSectionCard">
+                        <div class="sectionTitle">识别策略</div>
+                        <div class="secondaryText introMarkerSectionDesc">控制本地识别的主路径与采样数量。默认自动模式会优先走更轻的路径。</div>
+                        <div class="selectContainer">
+                            <select is="emby-select" id="selectDetectionStrategy" label="本地识别方式">
+                                <option value="Auto">自动（视频+音频+字幕）</option>
+                                <option value="HashOnly">仅哈希</option>
+                                <option value="AudioOnly">仅声纹</option>
+                            </select>
+                            <div class="fieldDescription">自动模式按滑动窗口做多模态匹配，综合视频关键帧、音频特征、字幕特征和时序一致性。</div>
+                        </div>
+                        <div class="inputContainer">
+                            <label class="inputLabel inputLabelUnfocused" for="txtMaxSampleEpisodes">每季最大采样集数</label>
+                            <input is="emby-input" type="number" id="txtMaxSampleEpisodes" min="2" max="12" />
+                        </div>
+                        <div class="inputContainer">
+                            <label class="inputLabel inputLabelUnfocused" for="txtMinEpisodesPerSeason">最少样本集数</label>
+                            <input is="emby-input" type="number" id="txtMinEpisodesPerSeason" min="2" max="10" />
+                        </div>
                     </div>
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="txtMaxSampleEpisodes">每季最大采样集数</label>
-                        <input is="emby-input" type="number" id="txtMaxSampleEpisodes" min="2" max="12" />
+
+                    <div class="introMarkerSectionCard">
+                        <div class="sectionTitle">分析范围</div>
+                        <div class="secondaryText introMarkerSectionDesc">定义片头片尾识别的搜索范围与允许的区间长度。</div>
+                        <div class="inputContainer">
+                            <label class="inputLabel inputLabelUnfocused" for="txtIntroAnalysisSeconds">片头分析范围（秒）</label>
+                            <input is="emby-input" type="number" id="txtIntroAnalysisSeconds" min="30" max="600" />
+                        </div>
+                        <div class="inputContainer">
+                            <label class="inputLabel inputLabelUnfocused" for="txtCreditsAnalysisSeconds">片尾分析范围（秒）</label>
+                            <input is="emby-input" type="number" id="txtCreditsAnalysisSeconds" min="30" max="900" />
+                        </div>
+                        <div class="inputContainer">
+                            <label class="inputLabel inputLabelUnfocused" for="txtMinIntroDurationSeconds">片头最短时长（秒）</label>
+                            <input is="emby-input" type="number" id="txtMinIntroDurationSeconds" min="5" max="180" />
+                        </div>
+                        <div class="inputContainer">
+                            <label class="inputLabel inputLabelUnfocused" for="txtMaxIntroDurationSeconds">片头最长时长（秒）</label>
+                            <input is="emby-input" type="number" id="txtMaxIntroDurationSeconds" min="5" max="300" />
+                        </div>
+                        <div class="inputContainer">
+                            <label class="inputLabel inputLabelUnfocused" for="txtMinCreditsDurationSeconds">片尾最短时长（秒）</label>
+                            <input is="emby-input" type="number" id="txtMinCreditsDurationSeconds" min="5" max="300" />
+                        </div>
+                        <div class="inputContainer">
+                            <label class="inputLabel inputLabelUnfocused" for="txtMaxCreditsDurationSeconds">片尾最长时长（秒）</label>
+                            <input is="emby-input" type="number" id="txtMaxCreditsDurationSeconds" min="5" max="600" />
+                        </div>
                     </div>
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="txtIntroAnalysisSeconds">片头分析范围（秒）</label>
-                        <input is="emby-input" type="number" id="txtIntroAnalysisSeconds" min="30" max="600" />
-                    </div>
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="txtCreditsAnalysisSeconds">片尾分析范围（秒）</label>
-                        <input is="emby-input" type="number" id="txtCreditsAnalysisSeconds" min="30" max="900" />
-                    </div>
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="txtMinIntroDurationSeconds">片头最短时长（秒）</label>
-                        <input is="emby-input" type="number" id="txtMinIntroDurationSeconds" min="5" max="180" />
-                    </div>
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="txtMaxIntroDurationSeconds">片头最长时长（秒）</label>
-                        <input is="emby-input" type="number" id="txtMaxIntroDurationSeconds" min="5" max="300" />
-                    </div>
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="txtMinCreditsDurationSeconds">片尾最短时长（秒）</label>
-                        <input is="emby-input" type="number" id="txtMinCreditsDurationSeconds" min="5" max="300" />
-                    </div>
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="txtMaxCreditsDurationSeconds">片尾最长时长（秒）</label>
-                        <input is="emby-input" type="number" id="txtMaxCreditsDurationSeconds" min="5" max="600" />
-                    </div>
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="txtSampleFps">采样帧率</label>
-                        <input is="emby-input" type="number" id="txtSampleFps" min="1" max="2" />
-                    </div>
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="txtMatchThreshold">匹配阈值</label>
-                        <input is="emby-input" type="number" id="txtMatchThreshold" min="0.70" max="0.99" step="0.01" />
-                    </div>
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="txtMatchWindowSeconds">匹配窗口（秒）</label>
-                        <input is="emby-input" type="number" id="txtMatchWindowSeconds" min="6" max="30" />
-                    </div>
-                    <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="txtMinEpisodesPerSeason">最少样本集数</label>
-                        <input is="emby-input" type="number" id="txtMinEpisodesPerSeason" min="2" max="10" />
+
+                    <div class="introMarkerSectionCard">
+                        <div class="sectionTitle">匹配参数</div>
+                        <div class="secondaryText introMarkerSectionDesc">控制特征采样密度与匹配严格程度。</div>
+                        <div class="inputContainer">
+                            <label class="inputLabel inputLabelUnfocused" for="txtSampleFps">采样帧率</label>
+                            <input is="emby-input" type="number" id="txtSampleFps" min="1" max="2" />
+                        </div>
+                        <div class="inputContainer">
+                            <label class="inputLabel inputLabelUnfocused" for="txtMatchThreshold">匹配阈值</label>
+                            <input is="emby-input" type="number" id="txtMatchThreshold" min="0.70" max="0.99" step="0.01" />
+                        </div>
+                        <div class="inputContainer">
+                            <label class="inputLabel inputLabelUnfocused" for="txtMatchWindowSeconds">匹配窗口（秒）</label>
+                            <input is="emby-input" type="number" id="txtMatchWindowSeconds" min="6" max="30" />
+                        </div>
                     </div>
                 </div>
             </form>
 
             <div id="tabStatus" class="configTabPage hide introMarkerCard">
                 <div class="sectionTitle">运行状态</div>
-                <div id="statusBox" class="card cardBox padded">
+                <div class="secondaryText introMarkerSectionDesc">显示当前扫描进度、状态和最近一次处理消息。</div>
+                <div id="statusBox" class="card cardBox padded" style="background:none; border:none; padding:0;">
                     <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:1em;">
                         <div style="font-size:1.1em; font-weight:600;">扫描状态</div>
                         <div id="statusBadge" style="padding:.3em .8em; border-radius:999px; font-weight:600; background:rgba(128,128,128,.18);">未知</div>
                     </div>
 
-                    <div style="display:flex; margin:.55em 0;">
-                        <div class="secondaryText" style="width:8em; flex:0 0 8em;">更新时间</div>
-                        <div id="statusTime" style="flex:1;">尚未加载</div>
+                    <div class="introMarkerStats">
+                        <div class="introMarkerStat">
+                            <div class="introMarkerStatLabel">更新时间</div>
+                            <div id="statusTime" class="introMarkerStatValue">尚未加载</div>
+                        </div>
+                        <div class="introMarkerStat">
+                            <div class="introMarkerStatLabel">季度进度</div>
+                            <div id="statusSeasons" class="introMarkerStatValue">- / -</div>
+                        </div>
+                        <div class="introMarkerStat">
+                            <div class="introMarkerStatLabel">已扫剧集</div>
+                            <div id="statusEpisodes" class="introMarkerStatValue">-</div>
+                        </div>
                     </div>
-                    <div style="display:flex; margin:.55em 0;">
-                        <div class="secondaryText" style="width:8em; flex:0 0 8em;">季度进度</div>
-                        <div id="statusSeasons" style="flex:1; font-weight:600;">- / -</div>
-                    </div>
-                    <div style="display:flex; margin:.55em 0;">
-                        <div class="secondaryText" style="width:8em; flex:0 0 8em;">已扫剧集</div>
-                        <div id="statusEpisodes" style="flex:1; font-weight:600;">-</div>
-                    </div>
-                    <div style="display:flex; margin:.55em 0; align-items:flex-start;">
-                        <div class="secondaryText" style="width:8em; flex:0 0 8em;">当前阶段</div>
-                        <div id="statusStage" style="flex:1;">-</div>
-                    </div>
-                    <div style="display:flex; margin:.55em 0; align-items:flex-start;">
-                        <div class="secondaryText" style="width:8em; flex:0 0 8em;">最近消息</div>
-                        <div id="statusMessage" style="flex:1; line-height:1.6;">-</div>
+
+                    <div class="introMarkerSectionCard" style="margin-top:0;">
+                        <div class="introMarkerInfoRow">
+                            <div class="secondaryText introMarkerInfoKey">当前阶段</div>
+                            <div id="statusStage" style="flex:1;">-</div>
+                        </div>
+                        <div class="introMarkerInfoRow" style="margin-bottom:0;">
+                            <div class="secondaryText introMarkerInfoKey">最近消息</div>
+                            <div id="statusMessage" style="flex:1; line-height:1.7;">-</div>
+                        </div>
                     </div>
                 </div>
             </div>
