@@ -1,4 +1,4 @@
-<div is="emby-scroller" data-controller="configurationpage?name=IntroMarkerConfigurationjsV14" class="view flex flex-direction-column scrollFrameY flex-grow" data-horizontal="false" data-forcescrollbar="true" data-centerfocus="true" data-bindheader="true" data-title="片头片尾识别">
+<div is="emby-scroller" data-controller="configurationpage?name=IntroMarkerConfigurationjsV15" class="view flex flex-direction-column scrollFrameY flex-grow" data-horizontal="false" data-forcescrollbar="true" data-centerfocus="true" data-bindheader="true" data-title="片头片尾识别">
     <div class="scrollSlider flex-direction-column padded-left padded-left-page padded-right padded-top-page padded-bottom-page">
         <div class="readOnlyContent auto-center" style="max-width: 900px;">
             <style>
@@ -31,6 +31,12 @@
                     word-break: break-all;
                 }
 
+                .introMarkerFooter {
+                    margin-top: 1rem;
+                    text-align: center;
+                    line-height: 1.8;
+                }
+
                 .introMarkerTabBar,
                 .introMarkerActions {
                     display: flex;
@@ -60,10 +66,6 @@
                     <div class="introMarkerTitle">
                         <h1 class="pageTitle" style="margin:0;">片头片尾识别</h1>
                         <div class="secondaryText">Emby 片头 / 片尾标记检测与管理</div>
-                    </div>
-                    <div class="secondaryText introMarkerMeta">
-                        <div id="pluginVersion">版本：-</div>
-                        <div>仓库：<a id="repoLink" href="https://github.com/LongShengWen/emby-intro-marker" target="_blank" rel="noreferrer">https://github.com/LongShengWen/emby-intro-marker</a></div>
                     </div>
                 </div>
 
@@ -264,6 +266,11 @@
                         <div id="statusMessage" style="flex:1; line-height:1.6;">-</div>
                     </div>
                 </div>
+            </div>
+
+            <div class="secondaryText introMarkerFooter">
+                <div id="pluginVersion">版本：-</div>
+                <div>仓库：<a id="repoLink" href="https://github.com/LongShengWen/emby-intro-marker" target="_blank" rel="noreferrer">emby-intro-marker</a></div>
             </div>
         </div>
     </div>

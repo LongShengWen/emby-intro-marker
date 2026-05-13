@@ -131,7 +131,7 @@ define(['baseView', 'loading', 'toast', 'emby-input', 'emby-button', 'emby-check
             const repoLink = view.querySelector('#repoLink');
             if (repoLink && status.RepositoryUrl) {
                 repoLink.href = status.RepositoryUrl;
-                repoLink.textContent = status.RepositoryUrl;
+                repoLink.textContent = 'emby-intro-marker';
             }
 
             if (badge) {
